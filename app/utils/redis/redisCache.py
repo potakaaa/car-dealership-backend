@@ -11,7 +11,9 @@ def redis_cache(key: str, result = Any, cacheTime: int = 300, response_model = N
     
     if response_model:
         serialized = [item.dict() for item in result] if isinstance(result, list) else result.dict()
-        redis_client.setex(key, cacheTime, json.dumps(serialized))
+        
     else:
-        redis_client.setex(key, cacheTime, json.dumps(result))
+        serialized = result
         return result
+    redis_client.setex(key, cacheTime, json.dumps(serialized))
+    return result
