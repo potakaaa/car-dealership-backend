@@ -17,8 +17,7 @@ def get_db():
 @router.get("/cars", response_model=ApiResponse)
 def get_cars(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     cars = carService.get_cars(db, skip=skip, limit=limit)
-    data = [Car.from_orm(car) for car in cars]
-    return ApiResponse(data=data)
+    return ApiResponse(data=cars)
 
 @router.get("/cars/{car_id}", response_model=ApiResponse)
 def get_car(car_id: int, db: Session = Depends(get_db)):

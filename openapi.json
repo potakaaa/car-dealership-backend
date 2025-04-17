@@ -1,0 +1,288 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "FastAPI",
+      "version": "0.1.0"
+    },
+    "paths": {
+      "/api/v1/cars": {
+        "get": {
+          "tags": [
+            "cars"
+          ],
+          "summary": "Get Cars",
+          "operationId": "get_cars_api_v1_cars_get",
+          "parameters": [
+            {
+              "name": "skip",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "default": 0,
+                "title": "Skip"
+              }
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "default": 10,
+                "title": "Limit"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ApiResponse"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "cars"
+          ],
+          "summary": "Add Car",
+          "operationId": "add_car_api_v1_cars_post",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CarAdd"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ApiResponse"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/cars/{car_id}": {
+        "get": {
+          "tags": [
+            "cars"
+          ],
+          "summary": "Get Car",
+          "operationId": "get_car_api_v1_cars__car_id__get",
+          "parameters": [
+            {
+              "name": "car_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "title": "Car Id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ApiResponse"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "cars"
+          ],
+          "summary": "Buy Car",
+          "operationId": "buy_car_api_v1_cars__car_id__put",
+          "parameters": [
+            {
+              "name": "car_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "title": "Car Id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ApiResponse"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "ApiResponse": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "title": "Status",
+              "default": "success"
+            },
+            "data": {
+              "title": "Data"
+            }
+          },
+          "type": "object",
+          "required": [
+            "data"
+          ],
+          "title": "ApiResponse"
+        },
+        "CarAdd": {
+          "properties": {
+            "make": {
+              "type": "string",
+              "title": "Make"
+            },
+            "model": {
+              "type": "string",
+              "title": "Model"
+            },
+            "year": {
+              "type": "integer",
+              "title": "Year"
+            },
+            "price": {
+              "type": "number",
+              "title": "Price"
+            },
+            "mileage": {
+              "type": "integer",
+              "title": "Mileage"
+            },
+            "color": {
+              "type": "string",
+              "title": "Color"
+            }
+          },
+          "type": "object",
+          "required": [
+            "make",
+            "model",
+            "year",
+            "price",
+            "mileage",
+            "color"
+          ],
+          "title": "CarAdd"
+        },
+        "HTTPValidationError": {
+          "properties": {
+            "detail": {
+              "items": {
+                "$ref": "#/components/schemas/ValidationError"
+              },
+              "type": "array",
+              "title": "Detail"
+            }
+          },
+          "type": "object",
+          "title": "HTTPValidationError"
+        },
+        "ValidationError": {
+          "properties": {
+            "loc": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              },
+              "type": "array",
+              "title": "Location"
+            },
+            "msg": {
+              "type": "string",
+              "title": "Message"
+            },
+            "type": {
+              "type": "string",
+              "title": "Error Type"
+            }
+          },
+          "type": "object",
+          "required": [
+            "loc",
+            "msg",
+            "type"
+          ],
+          "title": "ValidationError"
+        }
+      }
+    }
+  }

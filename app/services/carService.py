@@ -1,13 +1,33 @@
 from sqlalchemy.orm import Session
 from app.models.carModel import Car
 from app.schemas.carSchema import CarAdd
+from app.schemas.carSchema import Car as CarResponse
 from fastapi import HTTPException
+from app.utils.redis.redisClient import redis_client
+from app.utils.redis.redisCache import redis_cache
+import json
 
 def get_cars(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(Car).offset(skip).limit(limit).all()
+
+    cars = db.query(Car).offset(skip).limit(limit).all()
+    data = [CarResponse.from_orm(car) for car in cars]
+
+    return redis_cache(
+        key=f"cars_{skip}_{limit}",
+        cacheTime=300,
+        result=data,
+    )
 
 def get_car_by_id(db: Session, car_id: int):
-    return db.query(Car).filter(Car.id == car_id).first()
+
+    car = db.query(Car).filter(Car.id == car_id).first()
+    data = CarResponse.from_orm(car)
+
+    return redis_cache(
+        key=f"car_{car_id}",
+        cacheTime=300,
+        result=data,
+    )
 
 def add_car(db: Session, car: CarAdd):
     db_car = Car(**car.dict())
