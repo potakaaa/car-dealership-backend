@@ -39,6 +39,9 @@ def add_car(db: Session, car: CarAdd):
 def mark_as_sold(db: Session, car_id: int):
     car = db.query(Car).filter(Car.id == car_id).first()
     
+    if not car:
+        raise HTTPException(status_code=404, detail="Car not found")
+    
     if car.is_sold:
         raise HTTPException(status_code=400, detail="Car already sold")
     

@@ -24,7 +24,7 @@ def get_car(car_id: int, db: Session = Depends(get_db)):
     car = carService.get_car_by_id(db, car_id=car_id)
     if not car:
         raise HTTPException(status_code=404, detail="Car not found")
-    return ApiResponse(data=Car.from_orm(car))
+    return ApiResponse(data=car)
 
 @router.post("/cars", response_model=ApiResponse)
 def add_car(car: CarAdd, db: Session = Depends(get_db)):
@@ -34,8 +34,5 @@ def add_car(car: CarAdd, db: Session = Depends(get_db)):
 @router.put("/cars/{car_id}", response_model=ApiResponse)
 def buy_car(car_id: int, db: Session = Depends(get_db)):
     car = carService.mark_as_sold(db=db, car_id=car_id)
-    if not car:
-        raise HTTPException(status_code=404, detail="Car not found")
-    
     return ApiResponse(data=Car.from_orm(car))
 
