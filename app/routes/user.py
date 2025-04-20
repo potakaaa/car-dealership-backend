@@ -1,10 +1,10 @@
-from schemas.user import LoginRequest, VerificationCode
 from fastapi import APIRouter, Depends, HTTPException
-from utils.apiResponse import ApiResponse
-from utils.db.getDb import get_db
-from models.user import User
-from utils.whatsapp.whatsapp_api import generate_and_send_code
-from services.user import login_or_signup, verify_code
+from app.schemas.user import LoginRequest, VerificationCode
+from app.utils.apiResponse import ApiResponse
+from app.utils.db.getDb import get_db
+from app.models.user import User
+from app.utils.whatsapp.whatsapp_api import generate_and_send_code
+from app.services.user import login_or_signup, verify_code
 from sqlalchemy.orm import Session
 
 router = APIRouter()

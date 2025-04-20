@@ -1,7 +1,7 @@
 import os, httpx, random
 from datetime import timedelta
 from fastapi import FastAPI, HTTPException
-from utils.redis.redisClient import redis_client
+from app.utils.redis.redisClient import redis_client
 
 async def send_message(phone_number: str, code: str):
     payload = {

@@ -1,9 +1,9 @@
-from schemas.user import LoginRequest, VerificationCode
 from sqlalchemy.orm import Session
-from models.user import User
-from utils.whatsapp.whatsapp_api import generate_and_send_code
-from utils.redis.redisCache import redis_cache
-from utils.redis.redisClient import redis_client
+from app.schemas.user import LoginRequest, VerificationCode
+from app.models.user import User
+from app.utils.whatsapp.whatsapp_api import generate_and_send_code
+from app.utils.redis.redisCache import redis_cache
+from app.utils.redis.redisClient import redis_client
 from fastapi import HTTPException
 
 async def login_or_signup(db: Session, payload: LoginRequest):

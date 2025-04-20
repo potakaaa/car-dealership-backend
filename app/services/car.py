@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from app.models.cars import Car
-from app.schemas.carSchema import CarAdd
-from app.schemas.carSchema import Car as CarResponse
+from app.models.car import Car
+from app.schemas.car import CarAdd
+from app.schemas.car import Car as CarResponse
 from fastapi import HTTPException
 from app.utils.redis.redisClient import redis_client
 from app.utils.redis.redisCache import redis_cache

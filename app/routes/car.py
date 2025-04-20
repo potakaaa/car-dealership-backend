@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas.car import CarAdd, Car
-from services import car
-from utils.apiResponse import ApiResponse
-from utils.db.getDb import get_db
+from app.schemas.car import CarAdd, Car
+from app.services import car
+from app.utils.apiResponse import ApiResponse
+from app.utils.db.getDb import get_db
 
 router = APIRouter()
 
 @router.get("/cars", response_model=ApiResponse)
 def get_cars(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    cars = cars.get_cars(db, skip=skip, limit=limit)
+    cars = car.get_cars(db, skip=skip, limit=limit)
     return ApiResponse(data=cars)
 
 @router.get("/cars/{car_id}", response_model=ApiResponse)
