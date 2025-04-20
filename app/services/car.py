@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.carModel import Car
+from app.models.cars import Car
 from app.schemas.carSchema import CarAdd
 from app.schemas.carSchema import Car as CarResponse
 from fastapi import HTTPException
