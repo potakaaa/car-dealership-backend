@@ -6,7 +6,7 @@ from app.utils.redis.redisClient import redis_client
 async def send_message(phone_number: str, code: str):
     payload = {
         "messaging_product": "whatsapp",
-        "to": {phone_number},
+        "to": phone_number,
         "type": "template",
         "template": {
             "name": "verify_code",
@@ -21,7 +21,7 @@ async def send_message(phone_number: str, code: str):
                     "parameters": [
                         {
                             "type": "text",
-                            "text": {code}  
+                            "text": code  
                         }
                     ]
                 },
@@ -35,15 +35,21 @@ async def send_message(phone_number: str, code: str):
                     "parameters": [
                         {
                             "type": "text",
-                            "text": {code}
+                            "text": code
                         }
                         ]
                     }
                 ]
             }
         }
+    
+    print("Sending message to WhatsApp API", os.getenv('WHATSAPP_API_URL'))
+    print("Token", os.getenv('WHATSAPP_API_TOKEN'))
+    print("Payload", payload)
+
     headers = {"Authorization" : f"Bearer {os.getenv('WHATSAPP_API_TOKEN')}"}
 
+    
     async with httpx.AsyncClient() as client:
         response = await client.post(os.getenv('WHATSAPP_API_URL'), json=payload, headers=headers)
         if response.status_code == 200:
@@ -53,7 +59,7 @@ async def send_message(phone_number: str, code: str):
         
 async def generate_and_send_code(phone_number: str):
     code = str(random.randint(100000, 999999))
-    await redis_client.setex(f"otp:{phone_number}", timedelta(minutes=5), code)
+    redis_client.setex(f"otp:{phone_number}", timedelta(minutes=5), code)
     await send_message(phone_number, code)
 
     return code
