@@ -55,4 +55,6 @@ async def generate_and_send_code(phone_number: str):
     code = str(random.randint(100000, 999999))
     await redis_client.setex(f"otp:{phone_number}", timedelta(minutes=5), code)
     await send_message(phone_number, code)
+
+    return code
     

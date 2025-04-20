@@ -4,6 +4,7 @@ class LoginRequest(BaseModel):
     phone_number: str
     username: str
 
-class VertificationCode(BaseModel):
+class VerificationCode(BaseModel):
     phone_number: str
+    username: str
     code: str
